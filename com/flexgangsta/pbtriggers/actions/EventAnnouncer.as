@@ -4,6 +4,7 @@ package com.flexgangsta.pbtriggers.actions
 	import com.pblabs.engine.debug.Logger;
 	
 	import flash.events.Event;
+	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	
 	public class EventAnnouncer implements IAction
@@ -11,7 +12,7 @@ package com.flexgangsta.pbtriggers.actions
 		//______________________________________ 
 		//	Public Properties
 		//______________________________________
-		public var properties:Array = new Array();
+		public var properties:Dictionary = new Dictionary();
 		
 		public var eventType:String;
 		
