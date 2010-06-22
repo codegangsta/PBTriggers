@@ -3,6 +3,8 @@ package com.flexgangsta.pbtriggers
 	import com.flexgangsta.pbtriggers.actions.IAction;
 	import com.pblabs.engine.entity.EntityComponent;
 	
+	import flash.events.Event;
+	
 	public class TriggerComponent extends EntityComponent implements ITriggerComponent
 	{
 		//______________________________________ 
@@ -18,17 +20,23 @@ package com.flexgangsta.pbtriggers
 			}
 			
 			//Add Event Handlers
-			
+			if(eventType.length)
+				this.owner.eventDispatcher.addEventListener(eventType,targetEventHandler);
 		}
 		
 		override protected function onRemove():void
 		{
 			super.onRemove();
+			
+			//Remove Event Handlers
+			this.owner.eventDispatcher.addEventListener(eventType,targetEventHandler);
 		}
 		
 		//______________________________________ 
 		//	Public Properties
 		//______________________________________	
+		public var eventType:String;
+		
 		[TypeHint(type="com.jeremysaenz.components.actions.IAction")]
 		public function get actions():Array
 		{
@@ -42,6 +50,16 @@ package com.flexgangsta.pbtriggers
 		public function get lastReturn():*
 		{
 			return _lastReturn;
+		}
+		
+		/**
+		 * 
+		 * The event that was captured by the trigger.
+		 * 
+		 */		
+		public function get event():Event
+		{
+			return _event;
 		}
 		
 		//______________________________________ 
@@ -68,5 +86,15 @@ package com.flexgangsta.pbtriggers
 		private var _exit:Boolean;
 		private var _lastReturn:*;
 		private var _actions:Array = new Array();
+		private var _event:Event;
+		
+		//______________________________________ 
+		//	Private Methods
+		//______________________________________
+		private function targetEventHandler(event:Event):void
+		{
+			_event = event;
+			execute();
+		}
 	}
 }

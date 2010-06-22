@@ -2,6 +2,13 @@ package com.flexgangsta.pbtriggers
 {
 	import com.pblabs.engine.entity.IEntityComponent;
 	
+	/**
+	 * The main purpose of a trigger is to execute a set group of actions.
+	 * It is up to the implementer as to how these actions are exected.
+	 * 
+	 * @author Jeremy Saenz
+	 * 
+	 */
 	public interface ITriggerComponent extends IEntityComponent
 	{
 		/**
