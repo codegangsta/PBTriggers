@@ -37,7 +37,7 @@ package com.flexgangsta.pbtriggers
 		//______________________________________	
 		public var eventType:String;
 		
-		[TypeHint(type="com.jeremysaenz.components.actions.IAction")]
+		[TypeHint(type="com.flexgangsta.pbtriggers.actions.IAction")]
 		public function get actions():Array
 		{
 			return _actions;

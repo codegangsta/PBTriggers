@@ -14,7 +14,7 @@ package com.flexgangsta.pbtriggers
 		/**
 		 * Contains all of the actions that are to be executed 
 		 * 
-		 * see actions.IAction
+		 * see com.flexgangsta.pbtriggers.actions.IAction
 		 */		
 		function get actions():Array;
 		function set actions(value:Array):void;
