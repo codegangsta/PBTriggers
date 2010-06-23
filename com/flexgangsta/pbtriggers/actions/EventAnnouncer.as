@@ -6,6 +6,7 @@ package com.flexgangsta.pbtriggers.actions
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
 	public class EventAnnouncer implements IAction
 	{
@@ -25,7 +26,7 @@ package com.flexgangsta.pbtriggers.actions
 			}
 			catch(e:Error)
 			{
-				Logger.error(this,"set definition","Class definition " + value + "does not exist");
+				Logger.error(this,"set definition","Class definition " + value + " does not exist, the event dispatched will be the default: flash.events.Event");
 			}
 		}
 		
@@ -39,8 +40,22 @@ package com.flexgangsta.pbtriggers.actions
 		//______________________________________
 		public function execute():*
 		{
-			// TODO, put checks and properties in
+			// Generate Event
 			var event:Event = new EventClass(eventType);
+			
+			for (var key:String in properties)
+			{
+				try
+				{
+					event[key] = properties[key];
+				}
+				catch(e:Error)
+				{
+					Logger.error(this,"execute","Property " + key + " does not exist on event of type " + getQualifiedClassName(EventClass));
+				}
+			}
+			
+			//Dispatch Event
 			_owner.owner.eventDispatcher.dispatchEvent(event);
 			return event;
 		}
@@ -49,6 +64,6 @@ package com.flexgangsta.pbtriggers.actions
 		//	Private Properties
 		//______________________________________
 		private var _owner:ITriggerComponent;
-		private var EventClass:Class
+		private var EventClass:Class = getDefinitionByName("flash.events.Event") as Class;
 	}
 }

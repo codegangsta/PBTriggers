@@ -1,6 +1,7 @@
 package com.flexgangsta.pbtriggers.actions
 {
 	import com.flexgangsta.pbtriggers.ITriggerComponent;
+	import com.pblabs.engine.debug.Logger;
 	import com.pblabs.engine.entity.PropertyReference;
 
 	public class MethodInvoker implements IAction
@@ -52,8 +53,19 @@ package com.flexgangsta.pbtriggers.actions
 			}
 			
 			// Create the method and execute
-			var method:Function = _owner.owner.getProperty(methodReference);
-			return method.apply(null,processedArguments);
+			try
+			{
+				var method:Function = _owner.owner.getProperty(methodReference);
+				return method.apply(null,processedArguments);
+			}
+			catch(e:Error)
+			{
+				if(e is ArgumentError)
+					Logger.error(this,"execute","MethodInvoker Failed:" + ArgumentError(e).message);
+				else
+					Logger.error(this,"execute","MethodInvoker Failed: Method reference " + methodReference.property + " does not exist");
+				return;
+			}
 		}
 		
 		//______________________________________ 
